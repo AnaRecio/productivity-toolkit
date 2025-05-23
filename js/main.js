@@ -79,7 +79,7 @@ async function generatePDF() {
             ensureSpace(1, 24);
             drawText(text, { size: 15, color: rgb(0.2, 0.2, 0.6), lineHeight: 24 });
         }
-        // Helper to draw divider
+        // Helper to draw divider (only between sections)
         function drawDivider() {
             ensureSpace(0, 14);
             y -= 4;
@@ -163,24 +163,28 @@ async function generatePDF() {
         const successVision = document.querySelector('textarea[placeholder="Describe your vision of success"]').value;
         drawText('What Success Looks Like: ' + successVision, { left: left + 20, size: 12 });
         drawText('First 3 Action Steps:', { left: left + 20, size: 12 });
-        document.querySelectorAll('ol li input[placeholder^="Step"]').forEach((input, i) => {
+        // Numbered list for action steps
+        const actionSteps = document.querySelectorAll('ol li input[placeholder^="Step"]');
+        actionSteps.forEach((input, i) => {
             drawText(`${i + 1}. ${input.value}`, { left: left + 40, size: 12 });
         });
         drawDivider();
 
-        // Weekly Wellness Habit Tracker
-        drawHeader('Weekly Wellness Habit Tracker:');
+        // Daily Wellness Habit Tracker (today only)
+        drawHeader('Daily Wellness Habit Tracker:');
         const habitRows = document.querySelectorAll('.checkboxes tr');
+        // Get today's day index (Mon=1, Tue=2, ..., Sun=7)
+        const today = new Date();
+        let dayIdx = today.getDay(); // Sunday=0, Monday=1, ...
+        if (dayIdx === 0) dayIdx = 7; // Make Sunday=7 for table
         for (let i = 1; i < habitRows.length; i++) { // skip header
             const cells = habitRows[i].querySelectorAll('td');
             const habit = cells[0].textContent;
-            let days = '';
-            for (let j = 1; j < cells.length; j++) {
-                days += cells[j].querySelector('input').checked ? 'Yes ' : 'No ';
-            }
-            drawText(`${habit}: ${days}`, { left: left + 20, size: 12 });
+            // Only check today's column
+            const checked = cells[dayIdx]?.querySelector('input').checked ? 'Yes' : 'No';
+            drawText(`${habit}: ${checked}`, { left: left + 20, size: 12 });
         }
-        drawDivider();
+        // No divider after last section
 
         // Save the PDF
         const pdfBytes = await pdfDoc.save();
