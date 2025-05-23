@@ -23,7 +23,7 @@ A comprehensive web-based toolkit for enhancing productivity and well-being. Thi
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/productivity-toolkit.git
+git clone https://github.com/AnaRecio/productivity-toolkit.git
 cd productivity-toolkit
 ```
 
