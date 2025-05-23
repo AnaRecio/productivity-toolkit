@@ -92,8 +92,8 @@ async function generatePDF() {
             drawText(`${time} - ${task}`, { left: left + 20, size: 11 });
         });
 
-        // Self-Care Reminders (static)
-        drawText('Self-Care Reminders: 💧 Stay Hydrated | 🧘 Take Stretch Breaks | ☀️ Get Sunlight | 🎯 Focus on Priorities');
+        // Self-Care Reminders (plain text)
+        drawText('Self-Care Reminders: Stay Hydrated | Take Stretch Breaks | Get Sunlight | Focus on Priorities');
 
         // End-of-Day Reflection
         const reflection = document.querySelector('textarea[placeholder="What went well? What can you improve?"]').value;
@@ -145,7 +145,7 @@ async function generatePDF() {
             const habit = cells[0].textContent;
             let days = '';
             for (let j = 1; j < cells.length; j++) {
-                days += cells[j].querySelector('input').checked ? '✔️ ' : '❌ ';
+                days += cells[j].querySelector('input').checked ? 'Yes ' : 'No ';
             }
             drawText(`${habit}: ${days}`, { left: left + 20, size: 11 });
         }
