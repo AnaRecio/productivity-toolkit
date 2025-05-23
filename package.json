@@ -1,0 +1,12 @@
+{
+    "name": "productivity-toolkit",
+    "version": "1.0.0",
+    "description": "Ultimate Productivity & Wellness Toolkit",
+    "main": "index.html",
+    "scripts": {
+        "start": "serve ."
+    },
+    "dependencies": {
+        "serve": "^14.2.1"
+    }
+} 

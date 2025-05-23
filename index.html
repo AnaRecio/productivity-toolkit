@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultimate Productivity & Wellness Toolkit</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/main.css">
+    <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="page">
+            <h1>Ultimate Productivity & Wellness Toolkit</h1>
+            <p class="wellness-tips">✨ Transform your daily routine with this comprehensive toolkit for enhanced productivity and well-being.</p>
+        </div>
+
+        <div class="page">
+            <h2>Daily Focus Planner</h2>
+            <div class="section">
+                <div class="input-group">
+                    <label>Today's Date:</label>
+                    <input type="text" id="current-date" placeholder="Enter date here">
+                </div>
+                <div class="input-group">
+                    <label>Morning Intention:</label>
+                    <input type="text" id="morning-intention" placeholder="How do you want to feel today?">
+                </div>
+                <div class="input-group">
+                    <label>Mood Tracker:</label>
+                    <div class="mood-tracker">
+                        <div class="mood-option" data-mood="😊">Great</div>
+                        <div class="mood-option" data-mood="😌">Good</div>
+                        <div class="mood-option" data-mood="😐">Neutral</div>
+                        <div class="mood-option" data-mood="😔">Low</div>
+                        <div class="mood-option" data-mood="😢">Struggling</div>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <strong>Top 3 Goals:</strong>
+                    <ol>
+                        <li><input type="text" class="goal-input" placeholder="Goal 1"></li>
+                        <li><input type="text" class="goal-input" placeholder="Goal 2"></li>
+                        <li><input type="text" class="goal-input" placeholder="Goal 3"></li>
+                    </ol>
+                </div>
+                <div class="input-group">
+                    <strong>Time Block Schedule:</strong>
+                    <div class="highlight">
+                        <div class="time-block">
+                            <span>8:00</span>
+                            <input type="text" placeholder="Morning Routine">
+                        </div>
+                        <div class="time-block">
+                            <span>9:00</span>
+                            <input type="text" placeholder="Deep Work">
+                        </div>
+                        <div class="time-block">
+                            <span>10:00</span>
+                            <input type="text" placeholder="Meeting">
+                        </div>
+                        <div class="time-block">
+                            <span>11:00</span>
+                            <input type="text" placeholder="Project Work">
+                        </div>
+                        <div class="time-block">
+                            <span>12:00</span>
+                            <input type="text" placeholder="Lunch Break">
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <strong>Self-Care Reminders:</strong>
+                    <div class="wellness-tips">
+                        💧 Stay Hydrated | 🧘 Take Stretch Breaks | ☀️ Get Sunlight | 🎯 Focus on Priorities
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>End-of-Day Reflection:</label>
+                    <textarea placeholder="What went well? What can you improve?"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="page">
+            <h2>Gratitude Journal</h2>
+            <div class="section">
+                <div class="gratitude-section">
+                    <div class="gratitude-input">
+                        <input type="text" placeholder="I am grateful for...">
+                    </div>
+                    <div class="gratitude-input">
+                        <input type="text" placeholder="I am grateful for...">
+                    </div>
+                    <div class="gratitude-input">
+                        <input type="text" placeholder="I am grateful for...">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="page">
+            <h2>7-Day Digital Detox Challenge</h2>
+            <div class="section">
+                <div class="progress-bar">
+                    <div class="progress" id="detox-progress"></div>
+                </div>
+                <ul>
+                    <li>Day 1 – No phone for first hour after waking up</li>
+                    <li>Day 2 – Delete 1 distracting app</li>
+                    <li>Day 3 – One-hour screen-free break</li>
+                    <li>Day 4 – Social media time limit</li>
+                    <li>Day 5 – No phone 1 hour before bed</li>
+                    <li>Day 6 – Turn off notifications</li>
+                    <li>Day 7 – Log off 1 hour during the day</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="page">
+            <h2>Goal Visualization</h2>
+            <div class="section">
+                <div class="input-group">
+                    <label>My Main Goal:</label>
+                    <input type="text" placeholder="What do you want to achieve?">
+                </div>
+                <div class="input-group">
+                    <label>Why it Matters:</label>
+                    <textarea placeholder="What's your motivation?"></textarea>
+                </div>
+                <div class="input-group">
+                    <label>What Success Looks Like:</label>
+                    <textarea placeholder="Describe your vision of success"></textarea>
+                </div>
+                <div class="input-group">
+                    <label>My First 3 Action Steps:</label>
+                    <ol>
+                        <li><input type="text" placeholder="Step 1"></li>
+                        <li><input type="text" placeholder="Step 2"></li>
+                        <li><input type="text" placeholder="Step 3"></li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="page">
+            <h2>Weekly Wellness Habit Tracker</h2>
+            <div class="section">
+                <table class="checkboxes">
+                    <tr>
+                        <th>Habit</th>
+                        <th>Mon</th>
+                        <th>Tue</th>
+                        <th>Wed</th>
+                        <th>Thu</th>
+                        <th>Fri</th>
+                        <th>Sat</th>
+                        <th>Sun</th>
+                    </tr>
+                    <tr>
+                        <td>Hydration</td>
+                        <td><input type="checkbox" class="checkbox"></td>
+                        <td><input type="checkbox" class="checkbox"></td>
+                        <td><input type="checkbox" class="checkbox"></td>
+                        <td><input type="checkbox" class="checkbox"></td>
+                        <td><input type="checkbox" class="checkbox"></td>
+                        <td><input type="checkbox" class="checkbox"></td>
+                        <td><input type="checkbox" class="checkbox"></td>
+                    </tr>
+                    <tr>
+                        <td>Exercise</td>
+                        <td><input type="checkbox" class="checkbox"></td>
+                        <td><input type="checkbox" class="checkbox"></td>
+                        <td><input type="checkbox" class="checkbox"></td>
+                        <td><input type="checkbox" class="checkbox"></td>
+                        <td><input type="checkbox" class="checkbox"></td>
+                        <td><input type="checkbox" class="checkbox"></td>
+                        <td><input type="checkbox" class="checkbox"></td>
+                    </tr>
+                    <tr>
+                        <td>Meditation</td>
+                        <td><input type="checkbox" class="checkbox"></td>
+                        <td><input type="checkbox" class="checkbox"></td>
+                        <td><input type="checkbox" class="checkbox"></td>
+                        <td><input type="checkbox" class="checkbox"></td>
+                        <td><input type="checkbox" class="checkbox"></td>
+                        <td><input type="checkbox" class="checkbox"></td>
+                        <td><input type="checkbox" class="checkbox"></td>
+                    </tr>
+                    <tr>
+                        <td>Healthy Meals</td>
+                        <td><input type="checkbox" class="checkbox"></td>
+                        <td><input type="checkbox" class="checkbox"></td>
+                        <td><input type="checkbox" class="checkbox"></td>
+                        <td><input type="checkbox" class="checkbox"></td>
+                        <td><input type="checkbox" class="checkbox"></td>
+                        <td><input type="checkbox" class="checkbox"></td>
+                        <td><input type="checkbox" class="checkbox"></td>
+                    </tr>
+                    <tr>
+                        <td>Screen-Free Breaks</td>
+                        <td><input type="checkbox" class="checkbox"></td>
+                        <td><input type="checkbox" class="checkbox"></td>
+                        <td><input type="checkbox" class="checkbox"></td>
+                        <td><input type="checkbox" class="checkbox"></td>
+                        <td><input type="checkbox" class="checkbox"></td>
+                        <td><input type="checkbox" class="checkbox"></td>
+                        <td><input type="checkbox" class="checkbox"></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="action-buttons">
+        <button class="btn btn-secondary" onclick="clearForm()">Clear Form</button>
+        <button class="btn" onclick="generatePDF()">Save as PDF</button>
+    </div>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
