@@ -53,31 +53,42 @@ async function generatePDF() {
     try {
         const { PDFDocument, rgb, StandardFonts } = PDFLib;
         const pdfDoc = await PDFDocument.create();
-        const page = pdfDoc.addPage([612, 792]); // US Letter size
+        let page = pdfDoc.addPage([612, 792]); // US Letter size
         const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
         let y = 770;
         const left = 50;
+        const right = 560;
         const lineHeight = 18;
+        const bottomMargin = 60;
 
+        // Helper to check if we need a new page
+        function ensureSpace(lines = 1, extra = 0) {
+            if (y - (lines * lineHeight + extra) < bottomMargin) {
+                page = pdfDoc.addPage([612, 792]);
+                y = 770;
+            }
+        }
         // Helper to draw text and move y
         function drawText(text, opts = {}) {
+            ensureSpace(1, opts.lineHeight || lineHeight);
             page.drawText(text, { x: opts.left || left, y, size: opts.size || 12, font, ...opts });
             y -= opts.lineHeight || lineHeight;
         }
         // Helper to draw section headers
         function drawHeader(text) {
+            ensureSpace(1, 24);
             drawText(text, { size: 15, color: rgb(0.2, 0.2, 0.6), lineHeight: 24 });
         }
         // Helper to draw divider
         function drawDivider() {
+            ensureSpace(0, 14);
             y -= 4;
-            page.drawLine({ start: { x: left, y }, end: { x: 560, y }, thickness: 1, color: rgb(0.8, 0.8, 0.8) });
+            page.drawLine({ start: { x: left, y }, end: { x: right, y }, thickness: 1, color: rgb(0.8, 0.8, 0.8) });
             y -= 10;
         }
 
         // Title
         drawText('Ultimate Productivity & Wellness Toolkit', { size: 18, color: rgb(0.29, 0.56, 0.89), lineHeight: 28 });
-        drawDivider();
 
         // Date
         drawHeader('Daily Focus Planner');
@@ -86,6 +97,7 @@ async function generatePDF() {
         const mood = document.querySelector('.mood-option.selected');
         drawText('Mood: ' + (mood ? mood.textContent : ''));
         drawText('');
+        drawDivider();
 
         // Top 3 Goals
         drawHeader('Top 3 Goals:');
@@ -93,6 +105,7 @@ async function generatePDF() {
             drawText(`${i + 1}. ${goal.value}`, { left: left + 20, size: 12 });
         });
         drawText('');
+        drawDivider();
 
         // Time Block Schedule
         drawHeader('Time Block Schedule:');
@@ -102,11 +115,13 @@ async function generatePDF() {
             drawText(`${time} - ${task}`, { left: left + 20, size: 12 });
         });
         drawText('');
+        drawDivider();
 
         // Self-Care Reminders
         drawHeader('Self-Care Reminders:');
         drawText('Stay Hydrated | Take Stretch Breaks | Get Sunlight | Focus on Priorities', { left: left + 20, size: 12 });
         drawText('');
+        drawDivider();
 
         // End-of-Day Reflection
         drawHeader('End-of-Day Reflection:');
@@ -165,6 +180,7 @@ async function generatePDF() {
             }
             drawText(`${habit}: ${days}`, { left: left + 20, size: 12 });
         }
+        drawDivider();
 
         // Save the PDF
         const pdfBytes = await pdfDoc.save();
