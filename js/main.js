@@ -61,53 +61,68 @@ async function generatePDF() {
 
         // Helper to draw text and move y
         function drawText(text, opts = {}) {
-            page.drawText(text, { x: left, y, size: opts.size || 12, font, ...opts });
+            page.drawText(text, { x: opts.left || left, y, size: opts.size || 12, font, ...opts });
             y -= opts.lineHeight || lineHeight;
+        }
+        // Helper to draw section headers
+        function drawHeader(text) {
+            drawText(text, { size: 15, color: rgb(0.2, 0.2, 0.6), lineHeight: 24 });
+        }
+        // Helper to draw divider
+        function drawDivider() {
+            y -= 4;
+            page.drawLine({ start: { x: left, y }, end: { x: 560, y }, thickness: 1, color: rgb(0.8, 0.8, 0.8) });
+            y -= 10;
         }
 
         // Title
         drawText('Ultimate Productivity & Wellness Toolkit', { size: 18, color: rgb(0.29, 0.56, 0.89), lineHeight: 28 });
+        drawDivider();
 
         // Date
+        drawHeader('Daily Focus Planner');
         drawText('Date: ' + document.getElementById('current-date').value);
-
-        // Morning Intention
         drawText('Morning Intention: ' + document.getElementById('morning-intention').value);
-
-        // Mood Tracker
         const mood = document.querySelector('.mood-option.selected');
         drawText('Mood: ' + (mood ? mood.textContent : ''));
+        drawText('');
 
         // Top 3 Goals
-        drawText('Top 3 Goals:');
+        drawHeader('Top 3 Goals:');
         document.querySelectorAll('.goal-input').forEach((goal, i) => {
-            drawText(`${i + 1}. ${goal.value}`, { left: left + 20, size: 11 });
+            drawText(`${i + 1}. ${goal.value}`, { left: left + 20, size: 12 });
         });
+        drawText('');
 
         // Time Block Schedule
-        drawText('Time Block Schedule:');
+        drawHeader('Time Block Schedule:');
         document.querySelectorAll('.time-block').forEach(block => {
             const time = block.querySelector('span').textContent;
             const task = block.querySelector('input').value;
-            drawText(`${time} - ${task}`, { left: left + 20, size: 11 });
+            drawText(`${time} - ${task}`, { left: left + 20, size: 12 });
         });
+        drawText('');
 
-        // Self-Care Reminders (plain text)
-        drawText('Self-Care Reminders: Stay Hydrated | Take Stretch Breaks | Get Sunlight | Focus on Priorities');
+        // Self-Care Reminders
+        drawHeader('Self-Care Reminders:');
+        drawText('Stay Hydrated | Take Stretch Breaks | Get Sunlight | Focus on Priorities', { left: left + 20, size: 12 });
+        drawText('');
 
         // End-of-Day Reflection
+        drawHeader('End-of-Day Reflection:');
         const reflection = document.querySelector('textarea[placeholder="What went well? What can you improve?"]').value;
-        drawText('End-of-Day Reflection:');
-        drawText(reflection, { left: left + 20, size: 11 });
+        drawText(reflection, { left: left + 20, size: 12 });
+        drawDivider();
 
         // Gratitude Journal
-        drawText('Gratitude Journal:');
+        drawHeader('Gratitude Journal:');
         document.querySelectorAll('.gratitude-input input').forEach((input, i) => {
-            drawText(`${i + 1}. ${input.value}`, { left: left + 20, size: 11 });
+            drawText(`${i + 1}. ${input.value}`, { left: left + 20, size: 12 });
         });
+        drawDivider();
 
-        // Digital Detox Challenge (list and progress)
-        drawText('7-Day Digital Detox Challenge:');
+        // Digital Detox Challenge
+        drawHeader('7-Day Digital Detox Challenge:');
         const detoxDays = [
             'No phone for first hour after waking up',
             'Delete 1 distracting app',
@@ -118,27 +133,28 @@ async function generatePDF() {
             'Log off 1 hour during the day'
         ];
         detoxDays.forEach((desc, i) => {
-            drawText(`Day ${i + 1}: ${desc}`, { left: left + 20, size: 11 });
+            drawText(`Day ${i + 1}: ${desc}`, { left: left + 20, size: 12 });
         });
-        // Progress bar (count checked checkboxes in detox section)
         const detoxProgress = document.querySelectorAll('.progress')[0].style.width;
         drawText(`Detox Progress: ${detoxProgress}`);
+        drawDivider();
 
         // Goal Visualization
-        drawText('Goal Visualization:');
+        drawHeader('Goal Visualization:');
         const mainGoal = document.querySelector('input[placeholder="What do you want to achieve?"]').value;
-        drawText('Main Goal: ' + mainGoal, { left: left + 20, size: 11 });
+        drawText('Main Goal: ' + mainGoal, { left: left + 20, size: 12 });
         const whyMatters = document.querySelector('textarea[placeholder="What\'s your motivation?"]').value;
-        drawText('Why it Matters: ' + whyMatters, { left: left + 20, size: 11 });
+        drawText('Why it Matters: ' + whyMatters, { left: left + 20, size: 12 });
         const successVision = document.querySelector('textarea[placeholder="Describe your vision of success"]').value;
-        drawText('What Success Looks Like: ' + successVision, { left: left + 20, size: 11 });
-        drawText('First 3 Action Steps:', { left: left + 20, size: 11 });
+        drawText('What Success Looks Like: ' + successVision, { left: left + 20, size: 12 });
+        drawText('First 3 Action Steps:', { left: left + 20, size: 12 });
         document.querySelectorAll('ol li input[placeholder^="Step"]').forEach((input, i) => {
-            drawText(`${i + 1}. ${input.value}`, { left: left + 40, size: 11 });
+            drawText(`${i + 1}. ${input.value}`, { left: left + 40, size: 12 });
         });
+        drawDivider();
 
         // Weekly Wellness Habit Tracker
-        drawText('Weekly Wellness Habit Tracker:');
+        drawHeader('Weekly Wellness Habit Tracker:');
         const habitRows = document.querySelectorAll('.checkboxes tr');
         for (let i = 1; i < habitRows.length; i++) { // skip header
             const cells = habitRows[i].querySelectorAll('td');
@@ -147,7 +163,7 @@ async function generatePDF() {
             for (let j = 1; j < cells.length; j++) {
                 days += cells[j].querySelector('input').checked ? 'Yes ' : 'No ';
             }
-            drawText(`${habit}: ${days}`, { left: left + 20, size: 11 });
+            drawText(`${habit}: ${days}`, { left: left + 20, size: 12 });
         }
 
         // Save the PDF
