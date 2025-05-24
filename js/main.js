@@ -156,17 +156,16 @@ async function generatePDF() {
 
         // Daily Wellness Habit Checklist (not weekly)
         drawHeader('Daily Wellness Habit Checklist:');
-        const habits = ['Hydration', 'Exercise', 'Meditation', 'Healthy Meals', 'Screen-Free Breaks'];
-        habits.forEach(habit => {
-            // Find the first row with this habit
-            const row = Array.from(document.querySelectorAll('.checkboxes tr')).find(tr => tr.children[0]?.textContent === habit);
+        document.querySelectorAll('.checkboxes div').forEach(div => {
+            const label = div.querySelector('label');
+            const checkbox = div.querySelector('input[type="checkbox"]');
             let checked = 'No';
-            if (row) {
-                // Find the first checkbox in the row (today's habit)
-                const checkbox = row.querySelector('input[type="checkbox"]');
-                if (checkbox && checkbox.checked) checked = 'Yes';
+            if (checkbox && checkbox.checked) {
+                checked = 'Yes';
             }
-            drawText(`${habit}: ${checked}`, { left: left + 20, size: 12 });
+            // Extract habit text, removing the checkbox input element itself
+            const habitText = label.textContent.replace(/\s*\b(Hydration|Exercise|Meditation|Healthy Meals|Screen-Free Breaks)\b\s*/, '$1').trim();
+            drawText(`${habitText}: ${checked}`, { left: left + 20, size: 12 });
         });
 
         // Save the PDF
