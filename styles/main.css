@@ -55,6 +55,11 @@ h2 {
     padding: 1rem;
     background: #fff;
     border-radius: 12px;
+    page-break-inside: avoid;
+    border: none;
+    margin-bottom: 0;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
 }
 
 .input-group {
@@ -237,7 +242,7 @@ input[type="text"]:focus, textarea:focus {
 
     .page {
         margin: 0;
-        padding: 1rem;
+        padding: 0.5rem 1rem;
         box-shadow: none;
         page-break-after: always;
     }
@@ -253,5 +258,9 @@ input[type="text"]:focus, textarea:focus {
     .checkbox {
         -webkit-print-color-adjust: exact;
         print-color-adjust: exact;
+    }
+
+    .section {
+        page-break-inside: avoid;
     }
 } 

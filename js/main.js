@@ -57,7 +57,6 @@ async function generatePDF() {
         const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
         let y = 770;
         const left = 50;
-        const right = 560;
         const lineHeight = 18;
         const bottomMargin = 60;
 
@@ -79,13 +78,6 @@ async function generatePDF() {
             ensureSpace(1, 24);
             drawText(text, { size: 15, color: rgb(0.2, 0.2, 0.6), lineHeight: 24 });
         }
-        // Helper to draw divider (only between sections)
-        function drawDivider() {
-            ensureSpace(0, 14);
-            y -= 4;
-            page.drawLine({ start: { x: left, y }, end: { x: right, y }, thickness: 1, color: rgb(0.8, 0.8, 0.8) });
-            y -= 10;
-        }
 
         // Title
         drawText('Ultimate Productivity & Wellness Toolkit', { size: 18, color: rgb(0.29, 0.56, 0.89), lineHeight: 28 });
@@ -97,7 +89,6 @@ async function generatePDF() {
         const mood = document.querySelector('.mood-option.selected');
         drawText('Mood: ' + (mood ? mood.textContent : ''));
         drawText('');
-        drawDivider();
 
         // Top 3 Goals
         drawHeader('Top 3 Goals:');
@@ -105,7 +96,6 @@ async function generatePDF() {
             drawText(`${i + 1}. ${goal.value}`, { left: left + 20, size: 12 });
         });
         drawText('');
-        drawDivider();
 
         // Time Block Schedule
         drawHeader('Time Block Schedule:');
@@ -115,26 +105,22 @@ async function generatePDF() {
             drawText(`${time} - ${task}`, { left: left + 20, size: 12 });
         });
         drawText('');
-        drawDivider();
 
         // Self-Care Reminders
         drawHeader('Self-Care Reminders:');
         drawText('Stay Hydrated | Take Stretch Breaks | Get Sunlight | Focus on Priorities', { left: left + 20, size: 12 });
         drawText('');
-        drawDivider();
 
         // End-of-Day Reflection
         drawHeader('End-of-Day Reflection:');
         const reflection = document.querySelector('textarea[placeholder="What went well? What can you improve?"]').value;
         drawText(reflection, { left: left + 20, size: 12 });
-        drawDivider();
 
         // Gratitude Journal
         drawHeader('Gratitude Journal:');
         document.querySelectorAll('.gratitude-input input').forEach((input, i) => {
             drawText(`${i + 1}. ${input.value}`, { left: left + 20, size: 12 });
         });
-        drawDivider();
 
         // Digital Detox Challenge
         drawHeader('7-Day Digital Detox Challenge:');
@@ -152,7 +138,6 @@ async function generatePDF() {
         });
         const detoxProgress = document.querySelectorAll('.progress')[0].style.width;
         drawText(`Detox Progress: ${detoxProgress}`);
-        drawDivider();
 
         // Goal Visualization
         drawHeader('Goal Visualization:');
@@ -168,23 +153,21 @@ async function generatePDF() {
         actionSteps.forEach((input, i) => {
             drawText(`${i + 1}. ${input.value}`, { left: left + 40, size: 12 });
         });
-        drawDivider();
 
-        // Daily Wellness Habit Tracker (today only)
-        drawHeader('Daily Wellness Habit Tracker:');
-        const habitRows = document.querySelectorAll('.checkboxes tr');
-        // Get today's day index (Mon=1, Tue=2, ..., Sun=7)
-        const today = new Date();
-        let dayIdx = today.getDay(); // Sunday=0, Monday=1, ...
-        if (dayIdx === 0) dayIdx = 7; // Make Sunday=7 for table
-        for (let i = 1; i < habitRows.length; i++) { // skip header
-            const cells = habitRows[i].querySelectorAll('td');
-            const habit = cells[0].textContent;
-            // Only check today's column
-            const checked = cells[dayIdx]?.querySelector('input').checked ? 'Yes' : 'No';
+        // Daily Wellness Habit Checklist (not weekly)
+        drawHeader('Daily Wellness Habit Checklist:');
+        const habits = ['Hydration', 'Exercise', 'Meditation', 'Healthy Meals', 'Screen-Free Breaks'];
+        habits.forEach(habit => {
+            // Find the first row with this habit
+            const row = Array.from(document.querySelectorAll('.checkboxes tr')).find(tr => tr.children[0]?.textContent === habit);
+            let checked = 'No';
+            if (row) {
+                // Find the first checkbox in the row (today's habit)
+                const checkbox = row.querySelector('input[type="checkbox"]');
+                if (checkbox && checkbox.checked) checked = 'Yes';
+            }
             drawText(`${habit}: ${checked}`, { left: left + 20, size: 12 });
-        }
-        // No divider after last section
+        });
 
         // Save the PDF
         const pdfBytes = await pdfDoc.save();
